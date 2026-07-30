@@ -1,12 +1,12 @@
-# Reconstructed from propuskator/heartbeat:release (node 14.17.5 / alpine 3.11)
+# Reconstructed from propuskator/heartbeat:release (node 14.17.5).
+# Upstream deps lived on WebbyLab's now-defunct private GitLab, so node_modules
+# is vendored from the mirrored release image rather than resolved via npm.
+FROM uvarovo/propuskator-heartbeat:release AS vendor
+
 FROM node:14.17.5-alpine
-
 WORKDIR /app
-RUN apk add --no-cache python3 make g++
 
-COPY package.json package-lock.json ./
-RUN npm ci
-
+COPY --from=vendor /app/node_modules ./node_modules
 COPY . .
 
-CMD ["npm","start"]
+CMD ["/bin/sh","-c","npm start"]
