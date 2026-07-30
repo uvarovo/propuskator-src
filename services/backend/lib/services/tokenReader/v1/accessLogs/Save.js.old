@@ -1,0 +1,248 @@
+/* eslint-disable camelcase,no-template-curly-in-string */
+import _Uniq                                    from 'lodash/uniq';
+import Base                                     from '../../../Base';
+import AccessLog, { INITIATOR_TYPES }           from '../../../../models/AccessLog';
+import AccessSubject, { VIRTUAL_CODE_PREFIXES } from '../../../../models/AccessSubject';
+import AccessSubjectToken                       from '../../../../models/AccessSubjectToken';
+import Notification                             from '../../../../models/Notification';
+import sequelize                                from '../../../../sequelize';
+
+export const VIRTUAL_CODE_PREFIXES_TO_INITIATOR_TYPES = {
+    [VIRTUAL_CODE_PREFIXES.SBJ] : INITIATOR_TYPES.SUBJECT,
+    [VIRTUAL_CODE_PREFIXES.PHN] : INITIATOR_TYPES.PHONE
+};
+
+const BUTTON_CODE_PREFFIX = 'btn';
+const BUTTON_CODE_SUFFIX = 'exit';
+
+// the special code that is used to know that the reader was opened using open button
+export const BUTTON_CODE = `${BUTTON_CODE_PREFFIX}-${BUTTON_CODE_SUFFIX}`;
+
+const CODE_PREFIXES_TO_NOTIFICATION_MESSAGES = {
+    [BUTTON_CODE_PREFFIX] : (readerName, code) =>
+        `Точкой доступа ${readerName} зафиксирован несанкционированный ` +
+        `доступ для токена ${code} с использованием кнопки входа`
+};
+const CODE_PREFIXES_TO_NOTIFICATION_TYPES = {
+    [BUTTON_CODE_PREFFIX] : Notification.types.ACCESS_ATTEMPTS.UNAUTH_BUTTON_ACCESS
+};
+const CODE_PREFIXES_TO_INITIATOR_TYPES = {
+    [BUTTON_CODE_PREFFIX] : INITIATOR_TYPES.BUTTON
+};
+
+export default class AccessLogsSave extends Base {
+    static validationRules = {
+        body : [ 'required', 'string' ]
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    async execute({ body }) {
+        try {
+            const notificationsRecords = [];
+            const { tokenReaderId : accessTokenReaderId, accessTokenReader } = this.context;
+
+            const lastAccessLog = await AccessLog.findOne({
+                where : {
+                    accessTokenReaderId
+                },
+                order : [ [ 'attemptedAt', 'DESC' ] ]
+            });
+
+            const lastReaderAttemptedAt = lastAccessLog ? lastAccessLog.attemptedAt : new Date(0);
+            const attempts = [];
+
+            // const virtualTokensAccessSubjectIds = [];
+            const accessSubjectVirtualTokens = [];
+
+            if (this.logger) this.logger.info(`Start. ID - ${accessTokenReaderId}`);
+
+            body.split(',').forEach((access_str) => {
+                // eslint-disable-next-line prefer-const
+                let [ time, code, status ] = access_str.split('_');
+
+                if (time === '0') time = new Date();
+                else time = new Date(parseInt(time, 10) * 1000);
+
+                if (isNaN(time)) {
+                    if (this.logger) this.logger.warn(`WRONG OF ACCESS LOG STRING(${access_str}), time is invalid. Skip.`);
+
+                    return;
+                } else if (time < lastReaderAttemptedAt) {
+                    if (this.logger) this.logger.warn(`Time(${time}) is less then last save date(${lastReaderAttemptedAt}). Assume its already saved. Skip.`);
+
+                    return;
+                }
+
+                if (status === '1') status = AccessLog.STATUS_SUCCESS;
+                else if (status === '0') status = AccessLog.STATUS_DENIED;
+                else {
+                    if (this.logger) this.logger.warn(`WRONG OF ACCESS LOG STRING(${access_str}), status is invalid. Skip.`);
+
+                    return;
+                }
+
+                const map = code.split('-');
+
+                if (map.length === 2) {
+                    if (Object.values(VIRTUAL_CODE_PREFIXES).includes(map[0])) accessSubjectVirtualTokens.push(map[1]);
+                }
+                attempts.push({ time, code, status });
+            });
+
+            if (!attempts.length) return 'ok,0';
+
+            const accessSubjects_hash = {};
+            const accessSubjectTokens_hash = {};
+
+            if (this.logger) this.logger.info(accessSubjectVirtualTokens);
+
+            const accessSubjects = await AccessSubject.findAll({
+                where : { virtualCode: _Uniq(accessSubjectVirtualTokens) }
+            });
+
+            const accessSubjectTokens = await AccessSubjectToken.findAll({
+                where   : { code: _Uniq(attempts.map(({ code }) => code)) },
+                include : [ {
+                    association : AccessSubjectToken.AssociationAccessSubject,
+                    required    : false
+                } ]
+            });
+
+            accessSubjects.forEach(accessSubject => {
+                accessSubjects_hash[accessSubject.virtualCode] = accessSubject;
+            });
+            accessSubjectTokens.forEach(accessSubjectToken => {
+                accessSubjectTokens_hash[accessSubjectToken.code] = accessSubjectToken;
+            });
+
+            const reconds = attempts.map(({ time, code, status }) => {
+                const map = code.split('-');
+                const codePreffix = map[0];
+                const notificationType = CODE_PREFIXES_TO_NOTIFICATION_TYPES[codePreffix] ||
+                    Notification.types.ACCESS_ATTEMPTS.UNAUTH_ACCESS;
+                const notificationMessage =
+                    CODE_PREFIXES_TO_NOTIFICATION_MESSAGES[codePreffix]?.(accessTokenReader.name, code) ||
+                    `Точкой доступа ${accessTokenReader.name} зафиксирован ` +
+                    `несанкционированный доступ для токена ${code}`;
+                const initiatorType = CODE_PREFIXES_TO_INITIATOR_TYPES[codePreffix] || INITIATOR_TYPES.ACCESS_POINT;
+                const notification = {
+                    accessTokenReaderId,
+                    accessSubjectId      : null,
+                    accessSubjectTokenId : null,
+                    type                 : notificationType,
+                    message              : notificationMessage,
+                    data                 : {
+                        tokenCode : code
+                    }
+                };
+                const record = {
+                    accessTokenReaderId,
+                    accessSubjectTokenId : null,
+                    accessSubjectId      : null,
+                    status,
+                    initiatorType,
+                    attemptedAt          : time
+                };
+
+                // special code which doesn't change and is used to know that the reader was opened using
+                // the open button
+                if (code === BUTTON_CODE) {
+                    if (status === AccessLog.STATUS_DENIED) notificationsRecords.push(notification);
+
+                    return record;
+                }
+
+                if (map.length === 2) {
+                    const tokenPrefix = map[0];
+
+                    if (Object.values(VIRTUAL_CODE_PREFIXES).includes(tokenPrefix)) {
+                        const accessSubject = accessSubjects_hash[map[1]];
+
+                        if (!accessSubject) {
+                            if (this.logger) this.logger.warn(`Cannot find subject with id(${map[1]}). Skip.`);
+
+                            return null;
+                        }
+
+                        const messageToPrefix = {
+                            [VIRTUAL_CODE_PREFIXES.SBJ] : `Точкой доступа ${accessTokenReader.name} зафиксирован несанкционированный доступ с мобильного устройства субьектом ${accessSubject.name}`,
+                            [VIRTUAL_CODE_PREFIXES.PHN] : `Точкой доступа ${accessTokenReader.name} зафиксирован несанкционированный доступ субьектом  ${accessSubject.name} с помощью телефонного звонка`
+                        };
+                        const typeToPrefix = {
+                            [VIRTUAL_CODE_PREFIXES.SBJ] : Notification.types.ACCESS_ATTEMPTS.UNAUTH_SUBJECT_ACCESS,
+                            [VIRTUAL_CODE_PREFIXES.PHN] : Notification.types.ACCESS_ATTEMPTS.UNAUTH_SUBJECT_PHN_ACCESS
+                        };
+
+                        const message = messageToPrefix[tokenPrefix];
+
+
+                        if (status === AccessLog.STATUS_DENIED) {
+                            notificationsRecords.push({
+                                accessTokenReaderId,
+                                accessSubjectId      : accessSubject.id,
+                                accessSubjectTokenId : null,
+                                type                 : typeToPrefix[tokenPrefix],
+                                data                 : {},
+                                message
+                                // message   : `Denied access for token ${code}. Reader: ${accessTokenReader.name}`
+                            });
+                        }
+
+                        return {
+                            accessTokenReaderId,
+                            accessSubjectTokenId : null,
+                            accessSubjectId      : accessSubject.id,
+                            status,
+                            initiatorType        : VIRTUAL_CODE_PREFIXES_TO_INITIATOR_TYPES[tokenPrefix],
+                            attemptedAt          : time
+                        };
+                    }
+
+                    return null;
+                }
+                const accessSubjectToken = accessSubjectTokens_hash[code];
+
+                if (!accessSubjectToken) {
+                    if (this.logger) this.logger.warn(`Cannot find code(${code}). Skip.`);
+
+                    notificationsRecords.push({
+                        accessTokenReaderId,
+                        type    : Notification.alwaysEnabledTypes.UNKNOWN_TOKEN,
+                        message : `Точкой доступа ${accessTokenReader.name} считан неизвестный токен ${code}`,
+                        // message : `Receive unknown token ${code}. Reader: ${accessTokenReader.name}`,
+                        data    : {
+                            tokenCode : code
+                        }
+                    });
+
+                    return null;
+                }
+
+                if (accessSubjectToken) {
+                    notification.accessSubjectTokenId = accessSubjectToken.id;
+                    record.accessSubjectTokenId = accessSubjectToken.id;
+
+                    if (accessSubjectToken.accessSubject && (accessSubjectToken.assignedAt < time)) {
+                        notification.accessSubjectId = accessSubjectToken.accessSubject.id;
+                        record.accessSubjectId = accessSubjectToken.accessSubject.id;
+                    }
+                }
+
+                if (status === AccessLog.STATUS_DENIED) notificationsRecords.push(notification);
+
+                return record;
+            }).filter(v => v);
+
+            await sequelize.transaction(async transaction => {
+                await AccessLog.bulkCreate(reconds, { transaction });
+                if (notificationsRecords.length) {
+                    await Promise.all(notificationsRecords.map(r => Notification.create(r, { transaction })));
+                }
+            });
+
+            return `ok,${reconds.length}`;
+        } catch (e) {
+            throw e;
+        }
+    }
+}

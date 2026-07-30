@@ -1,0 +1,21 @@
+node_modules/
+npm-debug.log*
+.env
+.env.local
+*.log
+
+# never commit real certs / keys / runtime volumes
+etc/ssl/
+**/etc/ssl/
+*.pem
+*.key
+*.crt
+*.csr
+*.chain
+*.ca_bundle
+*.srl
+
+# runtime data
+storage/
+media/
+data/mnesia/

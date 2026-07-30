@@ -1,0 +1,46 @@
+{
+  "name": "updater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "VERBOSE=debug node runner",
+    "nodemon": "cross-env NODE_ENV=development VERBOSE=silly LOG_FORMAT=plain nodemon --ignore data runner",
+    "test:lint": "eslint lib app.js --ext js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.webbylab.com:SmartHome/2smart/cloud/updater.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dockerode": "^3.2.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs-extra": "^9.1.0",
+    "isomorphic-fetch": "^3.0.0",
+    "lodash": "^4.17.20",
+    "query-string": "^6.13.8",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "winston": "^3.3.3",
+    "yaml": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-webbylab": "^4.0.0",
+    "eslint-plugin-fetch": "0.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-more": "^0.3.2",
+    "eslint-plugin-no-require-lodash": "^1.1.0",
+    "eslint-plugin-prefer-spread": "^1.0.3",
+    "eslint-plugin-react": "^7.17.0"
+  }
+}

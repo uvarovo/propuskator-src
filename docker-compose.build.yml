@@ -1,0 +1,21 @@
+# Build-only compose: builds our own images from recovered source.
+# Deployment/runtime wiring lives in the uvarovo/propuskator deploy kit.
+services:
+  backend:
+    build: ./services/backend
+    image: ghcr.io/uvarovo/propuskator-backend:dev
+  mqtt-proxy:
+    build: ./services/mqtt-proxy
+    image: ghcr.io/uvarovo/propuskator-mqtt-proxy:dev
+  heartbeat:
+    build: ./services/heartbeat
+    image: ghcr.io/uvarovo/propuskator-heartbeat:dev
+  updater:
+    build: ./services/updater
+    image: ghcr.io/uvarovo/propuskator-updater:dev
+  streamming-service:
+    build: ./services/streamming-service
+    image: ghcr.io/uvarovo/propuskator-streamming-service:dev
+  cameras-media-collector:
+    build: ./services/cameras-media-collector
+    image: ghcr.io/uvarovo/propuskator-cameras-media-collector:dev

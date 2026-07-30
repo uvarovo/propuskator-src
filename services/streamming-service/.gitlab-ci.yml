@@ -1,0 +1,44 @@
+image: registry.gitlab.webbylab.com/smarthome/combined-ci-image:latest
+
+services:
+  - name: registry.gitlab.webbylab.com/smarthome/base-images/docker-dind
+    alias: docker
+
+variables:
+  MYSQL_DATABASE: access_test
+  MYSQL_USER: access_user_test
+  MYSQL_PASSWORD: password
+  MYSQL_ROOT_PASSWORD: root
+  MQTT_ROOT_USERNAME: testaccesscontrol
+  MQTT_ROOT_PASSWORD: testpassword
+
+stages:
+  - lint
+  - build
+  - deploy
+
+before_script:
+  - git clone https://oauth2:$ACCESS_TOKEN@gitlab.webbylab.com/SmartHome/docker-utils.git
+  - mv docker-utils/utils.sh docker.sh
+
+lint:
+  stage: lint
+  script:
+    - npm ci
+    - npm run test:lint
+
+build:
+  stage: build
+  script:
+    - ./docker.sh rundaemon
+    - ./docker.sh build
+    - ./docker.sh push
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - curl -X POST -F token=$TRIGGER_TOKEN -F ref=master -F variables[REPO_NAME]=streaming-service -F "variables[COMMIT_MESSAGE]=$CI_COMMIT_MESSAGE" https://gitlab.webbylab.com/api/v4/projects/926/trigger/pipeline
+  only:
+    - master

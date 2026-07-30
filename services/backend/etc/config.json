@@ -1,0 +1,135 @@
+{
+    "mode": "{{MODE}}",
+    "appPort": "{{PORT}}",
+    "defaultLocale" : "{{DEFAULT_LOCALE}}",
+    "apiTokenLength" : 20,
+    "dns" : "{{DNS}}",
+    "apiURL" : "{{API_URL}}",
+    "deepLinkHostURL" : "{{DEEP_LINK_HOST_URL}}",
+    "emqxTcpPort": "{{EMQX_TCP_PORT}}",
+    "rootSSLCertPath" : "{{ROOT_SSL_CERT_PATH}}",
+    "readerPhoneNumbers" : "{{READER_PHONE_NUMBERS}}",
+    "staticUrl" : "node-static",
+    "staticPath" : "storage",
+    "appWorkDir" : "app",
+    "tokenReaderActivePeriodSeconds" : "{{TOKEN_READER_ACTIVE_PERIOD_SECONDS}}",
+    "notificationAlivePeriodSeconds" : "{{NOTIFICATION_ALIVE_PERIOD_SECONDS}}",
+    "newTokenReaderNotificationPeriod" : "{{NEW_TOKEN_READER_NOTIFICATION_PERIOD}}",
+    "checkStreamInterval": "{{CHECK_STREAMS_INTERVAL_MS}}",
+    "failedCheckStreamRetries": "{{FAILED_CHECK_STREAM_RETRIES}}",
+    "androidAppLink" : "{{ANDROID_APP_LINK}}",
+    "iosAppLink" : "{{IOS_APP_LINK}}",
+    "mqttConnectionOptions": {
+        "uri"     : "{{MQTT_BROKER_URI}}",
+        "username": "{{MQTT_ROOT_USERNAME}}",
+        "password": "{{MQTT_ROOT_PASSWORD}}",
+        "syncMaxDelay": "{{MQTT_SYNC_MAX_DELAY}}",
+        "syncResetTimeout": "{{MQTT_SYNC_RESET_TIMEOUT}}"
+    },
+    "reportsRecieverEmail" : "{{REPORT_RECIEVER_EMAIL}}",
+    "intervals"            : {
+        "reportSend"    : "{{REPORT_SEND_INTERVAL}}",
+        "collectFrames" : "{{COLLECT_FRAMES_INTERVAL}}"
+    },
+    "mailOptions" : {
+        "transportType" : "{{MAIL_OPTIONS_TRANSPORT_TYPE}}",
+        "transportOptions" : {
+            "port": "{{MAIL_OPTIONS_TRANSPORT_OPTIONS_PORT}}",
+            "host": "{{MAIL_OPTIONS_TRANSPORT_OPTIONS_HOST}}",
+            "auth": {
+                "user": "{{MAIL_OPTIONS_TRANSPORT_OPTIONS_AUTH_USER}}",
+                "pass": "{{MAIL_OPTIONS_TRANSPORT_OPTIONS_AUTH_PASS}}"
+            }
+        },
+        "from" : "{{MAIL_OPTIONS_FROM}}"
+    },
+    "db": {
+        "username": "{{DB_USERNAME}}",
+        "password": "{{DB_PASSWORD}}",
+        "database": "{{DB_NAME}}",
+        "host": "{{DB_HOST}}",
+        "port": "{{DB_PORT}}",
+        "dialect": "{{DB_DIALECT}}",
+        "dialectOptions": { "supportBigNumbers": true, "bigNumberStrings": true }
+    },
+    "test-db": {
+        "database": "{{TEST_DATABASE_NAME}}",
+        "rootPassword": "{{MYSQL_ROOT_PASSWORD}}",
+        "username": "{{TEST_DB_USERNAME}}",
+        "password": "{{TEST_DB_PASSWORD}}",
+        "host": "{{TEST_DB_HOST}}",
+        "port": "{{TEST_DB_PORT}}",
+        "dialect": "{{TEST_DB_DIALECT}}",
+        "dialectOptions": { "supportBigNumbers": true, "bigNumberStrings": true }
+    },
+    "tokens" : {
+        "accessToken" : {
+            "lifetime" : "{{ACCESS_TOKEN_LIFETIME}}",
+            "secret" : "{{ACCESS_TOKEN_SECRET}}"
+        },
+        "adminPasswordResetToken" : {
+            "lifetime" : "{{ADMIN_PASSWORD_RESET_TOKEN_LIFETIME}}",
+            "secret" : "{{ADMIN_PASSWORD_RESET_TOKEN_SECRET}}"
+        },
+        "mobilePasswordResetToken" : {
+            "lifetime" : "{{MOBILE_PASSWORD_RESET_TOKEN_LIFETIME}}",
+            "secret" : "{{MOBILE_PASSWORD_RESET_TOKEN_SECRET}}"
+        },
+        "servicesTokens" : {
+            "lifetime" : "{{SERVICES_TOKEN_LIFETIME}}",
+            "modbus" : "{{MODBUS_SERVICE_TOKEN}}"
+        }
+    },
+    "jobs" : {
+        "host": "jobs",
+        "port": 6379,
+        "enabled" : "{{JOBS_ENABLED}}",
+        "schedules": {
+            "interval": "0 * * * *"
+        },
+        "notifications": {
+            "interval": "* * * * *"
+        }
+    },
+    "accessCameras" : {
+        "staticDirPath" : "/access-cameras",
+        "framesDir"     : "frames"
+    },
+    "attemptsOptions" : {
+        "interval" : "{{ATTEMPTS_INTERVAL}}",
+        "attemptsCount" : "{{ATTEMPTS_COUNT}}",
+        "blockedTime" : "{{ATTEMPTS_BLOCKED_TIME}}",
+        "userRegistrationRequests" : {
+            "attemptsCount": "{{USER_REQUESTS_REGISTRATION_ATTEMPTS_COUNT}}"
+        }
+    },
+    "actions" : {
+        "resetPassword" : {
+            "interval": "{{RESET_PASSWORD_INTERVAL}}",
+            "retriesNumberLimit": "{{RETRIES_NUMBER_LIMIT}}"
+        }
+    },
+    "collectFrames" : {
+        "concurrentProcsNumber" : "{{COLLECT_FRAMES_CONCURRENT_PROCS_NUMBER}}",
+        "procTimeout" : "{{COLLECT_FRAMES_PROC_TIMEOUT}}"
+    },
+    "qrCodes" : {
+        "errorCorrectionLevel" : "{{QR_CODES_ERROR_CORRECTION_LEVEL}}"
+    },
+    "s3": {
+        "endpoint": "{{S3_ENDPOINT}}",
+        "bucket": "{{S3_BUCKET}}",
+        "accessKeyId": "{{S3_ACCESS_KEY_ID}}",
+        "secretAccessKey": "{{S3_SECRET_ACCESS_KEY}}"
+    },
+    "mediaDirPath": "{{MEDIA_DIR_PATH}}",
+    "logs": {
+        "recordedFramesToSaveNumber": "{{LOGS_RECORDED_FRAMES_TO_SAVE_NUMBER}}",
+        "recordedVideosToSaveNumber": "{{LOGS_RECORDED_VIDEOS_TO_SAVE_NUMBER}}"
+    },
+    "camerasMedia": {
+        "collectFramesIntervalTime": "{{CAMERAS_MEDIA_COLLECT_FRAMES_INTERVAL_TIME}}",
+        "collectFramesAccuracyTime": "{{CAMERAS_MEDIA_COLLECT_FRAMES_ACCURACY_TIME}}",
+        "videoSegmentTime": "{{CAMERAS_MEDIA_VIDEO_SEGMENT_TIME}}"
+    }
+}

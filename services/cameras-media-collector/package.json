@@ -1,0 +1,54 @@
+{
+  "name": "cameras-media-collector",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test:lint": "eslint index.js app.js lib/ tests/ --ext js",
+    "start": "node index.js",
+    "dev": "LOG_FORMAT=plain nodemon index.js",
+    "test": "jest --collectCoverage",
+    "test:unit": "npm run test tests/unit",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.iot.webbylab.com:2smart/propuskator/apps/cameras-media-collector.git"
+  },
+  "keywords": [],
+  "author": "WebbyLab",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.31.0",
+    "eslint-config-webbylab": "^5.4.1",
+    "eslint-plugin-align-assignments": "^1.1.2",
+    "eslint-plugin-fetch": "0.0.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-more": "^1.0.3",
+    "eslint-plugin-no-require-lodash": "^1.1.0",
+    "eslint-plugin-prefer-spread": "^1.0.3",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-security": "^1.4.0",
+    "jest": "^27.0.6",
+    "jest-when": "^3.4.1",
+    "nodemon": "^2.0.12",
+    "pre-commit": "^1.2.2",
+    "prettier": "^2.4.1",
+    "prettier-eslint": "^13.0.0"
+  },
+  "pre-commit": [
+    "test:lint"
+  ],
+  "dependencies": {
+    "colors": "^1.4.0",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.5",
+    "winston": "^3.3.3"
+  }
+}

@@ -1,0 +1,354 @@
+{
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "plural_forms": "nplurals=2; plural=(n != 1);",
+                "lang": "ru"
+            },
+            "Value is required": [
+                "Заполните необходимое поле"
+            ],
+            "Not allowed value": [
+                "Недопустимое значение поля"
+            ],
+            "Authentication failed": [
+                "Неправильный логин или пароль пользователя"
+            ],
+            "Not unique access subject token code": [
+                "Не уникальный id метки"
+            ],
+            "Not unique access readers group name": [
+                "Не уникальное название пространства"
+            ],
+            "Not unique access area color": [
+                "Название или цвет пространства не уникально"
+            ],
+            "Not unique token reader name": [
+                "Не уникальное название точки"
+            ],
+            "AccessReadersGroup does not exist": [
+                "Пространство доступа не существует"
+            ],
+            "Validation error": [
+                "Ошибка валидации"
+            ],
+            "Please, contact your system administrator!": [
+                "Пожалуйста, свяжитесь с вашим системным администратором!"
+            ],
+            "Wrong phone format": [
+                "Неправильный формат телефона"
+            ],
+            "Wrong email format": [
+                "Неправильный формат почты"
+            ],
+            "Not unique email": [
+                "Не уникальная почта"
+            ],
+            "Not unique access point code": [
+                "Не уникальный идентификатор точки доступа"
+            ],
+            "Not unique token reader code": [
+                "Не уникальный id точки"
+            ],
+            "String is too long": [
+                "Слишком длинное значение поля"
+            ],
+            "String is too short": [
+                "Слишком короткое значение поля"
+            ],
+            "Value can not be empty": [
+                "Значение поля не может быть пустым"
+            ],
+            "Wrong end of date range": [
+                "Некорректная конечная дата диапазона"
+            ],
+            "Wrong date": [
+                "Некорректная дата"
+            ],
+            "AccessSubject does not exist": [
+                "Субъект не существует"
+            ],
+            "Access point does not exist": [
+                "Точка доступа не существует"
+            ],
+            "Not unique schedule name": [
+                "Не уникальное название графика"
+            ],
+            "Wrong password format": [
+                "Неправильный формат пароля"
+            ],
+            "Fields not equal": [
+                "Значения полей не совпадают"
+            ],
+            "You've entered the same passwords": [
+                "Новый и старый пароли совпадают"
+            ],
+            "Wrong old password": [
+                "Неправильный старый пароль"
+            ],
+            "Access subject token does not exist": [
+                "Метка не существует"
+            ],
+            "Not unique items": [
+                "Не уникальный элемент списка"
+            ],
+            "Access subject token is used by other employee": [
+                "Метка занята другим субъектом"
+            ],
+            "Wrong id": [
+                "Неправильный id"
+            ],
+            "Not unique access reader group name": [
+                "Не уникальное название пространства"
+            ],
+            "Wrong url format": [
+                "Неправильный формат url"
+            ],
+            "Access API setting already exists": [
+                "Настройка API уже существует"
+            ],
+            "Wrong format": [
+                "Неправильный формат"
+            ],
+            "Only a-z, A-Z letters and 0-9 digits": [
+                "Только латинские буквы : от “Aa” до “Zz” и числа от “0” до “9“"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessReadersGroup": [
+                "Не уникальное имя"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessSchedule": [
+                "Не уникальное имя"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessSubject": [
+                "Не уникальное имя"
+            ],
+            "Unique constraint error. Fields: email. Model: AccessSubject": [
+                "Не уникальная почта"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessSubjectToken": [
+                "Не уникальное имя"
+            ],
+            "Unique constraint error. Fields: code. Model: AccessSubjectToken": [
+                "Не уникальный код"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessTokenReader": [
+                "Не уникальное имя"
+            ],
+            "Unique constraint error. Fields: code. Model: AccessTokenReader": [
+                "Не уникальный код"
+            ],
+            "Only a-z, A-Z letters, 0-9 digits and :, -, _": [
+                "Только латинские буквы : от “Aa” до “Zz”, числа от “0” до “9“ и символы “:“, “-“, “_“"
+            ],
+            "Only A-Z letters and 0-9 digits": [
+                "Только латинские буквы : от “A” до “Z” и числа от “0” до “9“"
+            ],
+            "Only a-z letters, 0-9 digits and char -": [
+                "Только латинские буквы a-z и числа 0-9"
+            ],
+            "Only a-z letters and 0-9 digits": [
+                "Только латинские буквы a-z и числа 0-9"
+            ],
+            "The field is required for mobile application": [
+                "Поле является обязательным для использования мобильного приложения"
+            ],
+            "Workspace name is used": [
+                "Имя рабочего пространства занято"
+            ],
+            "Admin login is used": [
+                "Почта занята"
+            ],
+            "Subject name is used": [
+                "Имя субъекта занято"
+            ],
+            "Subject phone is used": [
+                "Номер телефона субъекта занят"
+            ],
+            "Subject email is used": [
+                "Почта субъекта занята"
+            ],
+            "Tag name is used": [
+                "Название метки занято"
+            ],
+            "Tag code is used": [
+                "Код метки занят"
+            ],
+            "Reader name is used": [
+                "Имя точки доступа занято"
+            ],
+            "Reader phone is used": [
+                "Номер телефона точки доступа занят"
+            ],
+            "Reader ID is used": [
+                "ID считывателя уже занято"
+            ],
+            "Schedule name is used": [
+                "Имя графика занято"
+            ],
+            "Group name is used": [
+                "Имя пространства занято"
+            ],
+            "Too short password": [
+                "Минимум 6 символов"
+            ],
+            "Password should contain at least one digit": [
+                "Пароль слишком простой"
+            ],
+            "Password should contain at least one lowercase latin character": [
+                "Пароль слишком простой"
+            ],
+            "Password should contain at least one uppercase latin character": [
+                "Пароль слишком простой"
+            ],
+            "Access forbidden": [
+                "Доступ запрещен"
+            ],
+            "Access is temporarily denied": [
+                "Доступ временно запрещен"
+            ],
+            "Bad request": [
+                "Плохой запрос"
+            ],
+            "Forbidden error": [
+                "Запрещено"
+            ],
+            "Format error": [
+                "Ошибка формата"
+            ],
+            "Not found": [
+                "Не найдено"
+            ],
+            "Open door error": [
+                "Ошибка открытия двери"
+            ],
+            "Email not found in workspace": [
+                "Email не найден в рабочем пространстве"
+            ],
+            "This email is already registered": [
+                "Этот адрес уже зарегистрирован"
+            ],
+            "Timed out": [
+                "Время вышло"
+            ],
+            "Token expired": [
+                "Срок действия токена истек"
+            ],
+            "Workspace not found": [
+                "Пространство не найдено"
+            ],
+            "Wrong email or password": [
+                "Неправильная почта или пароль"
+            ],
+            "Wrong token": [
+                "Неправильный токен"
+            ],
+            "Value should be integer": [
+                "Значение должно быть целым"
+            ],
+            "Value should be positive integer": [
+                "Значение должно быть положительным целым числом"
+            ],
+            "Value should be boolean": [
+                "Значение должно быть логическим"
+            ],
+            "Value is too low": [
+                "Значение слишком маленькое"
+            ],
+            "Value is too high": [
+                "Значение слишком большое"
+            ],
+            "Value is not decimal": [
+                "Значение не десятичное"
+            ],
+            "Too few items": [
+                "Слишком мало предметов"
+            ],
+            "Too many items": [
+                "Слишком много предметов"
+            ],
+            "Wrong time format": [
+                "Неправильный формат времени"
+            ],
+            "Wrong date format": [
+                "Неправильный формат даты"
+            ],
+            "List has duplicates": [
+                "В списке есть дубликаты"
+            ],
+            "Bad id": [
+                "Неправильный ID"
+            ],
+            "Email already exists": [
+                "Почта занята"
+            ],
+            "Email not found": [
+                "Почта не найдена"
+            ],
+            "The email is not registered in the workspace": [
+                "Почта не зарегистрирована"
+            ],
+            "Registration is temporarily unavailable. Ask your administrator": [
+                "Регистрация временно недоступна. Уточните у администратора"
+            ],
+            "Tag is not found": [
+                "Метка не найдена"
+            ],
+            "New password is the same as old": [
+                "Новый пароль такой же, как и старый"
+            ],
+            "Subject not permitted to use app": [
+                "Субъекту не разрешено использование мобильного приложения"
+            ],
+            "Wrong dates values in period": [
+                "Неправильный порядок дат в промежутке"
+            ],
+            "CameraToReaderMap already exists": [
+                "Связь между камерой и точкой доступа уже существует"
+            ],
+            "CameraToReaderMap with this accessTokenReaderId already exists": [
+                "Связь между точкой доступа с таким идентификатором и камерой уже существует"
+            ],
+            "Wrong password reset code": [
+                "Неправильный код восстановления пароля"
+            ],
+            "Requests can be sent no more often than the set interval - 5 minutes": [
+                "Запросы можно отправлять не чаще установленного интервала - 5 минут"
+            ],
+            "The limit of 4 password reset retries was exceeded": [
+                "Был превышен лимит в 4 повторные попытки восстановления пароля"
+            ],
+            "Invalid login or password": [
+                "Неправильный логин или пароль пользователя"
+            ],
+            "You have exceeded the authorization attempts limit. Please, repeat after a certain time": [
+                "Вы превысили лимит попыток авторизации. Пожалуйста, повторите попытку через некоторое время"
+            ],
+            "Wrong RTSP url": [
+                "Неправильный RTSP url"
+            ],
+            "Email doesn't exist": [
+                "Почта не существует"
+            ],
+            "Error with sending email": [
+                "Ошибка отправки email"
+            ],
+            "You have exceeded the registration requests limit. Please, repeat after a certain time": [
+                "Вы превысили лимит запросов на регистрацию. Пожалуйста, повторите попытку через некоторое время"
+            ],
+            "Registration request not found": [
+                "Запрос на регистрацию не найден"
+            ],
+            "Registration request in processing": [
+                "Запрос на регистрацию в обработке"
+            ],
+            "Email is already registered, try to authorize": [
+                "Email уже зарегистрирован, пройдите авторизацию"
+            ],
+            "You are already added to the workspace. Please, complete the common registration": [
+                "Вы уже добавлены в рабочее пространство. Пожалуйста, пройдите обычную регистрацию"
+            ]
+        }
+    }
+}

@@ -1,0 +1,354 @@
+{
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "plural_forms": "nplurals=2; plural=(n != 1);",
+                "lang": "ua"
+            },
+            "Value is required": [
+                "Заповніть необхідне поле"
+            ],
+            "Not allowed value": [
+                "Неприпустиме значення поля"
+            ],
+            "Authentication failed": [
+                "Неправильний логін або пароль користувача"
+            ],
+            "Not unique access subject token code": [
+                "Не унікальний id мітки"
+            ],
+            "Not unique access readers group name": [
+                "Не унікальна назва простору"
+            ],
+            "Not unique access area color": [
+                "Назва або колір простору не унікальні"
+            ],
+            "Not unique token reader name": [
+                "Не унікальна назва точки"
+            ],
+            "AccessReadersGroup does not exist": [
+                "Простір доступу не існує"
+            ],
+            "Validation error": [
+                "Помилка валідації"
+            ],
+            "Please, contact your system administrator!": [
+                "Будь ласка, зв'яжіться з вашим системним адміністратором!"
+            ],
+            "Wrong phone format": [
+                "Неправильний формат телефону"
+            ],
+            "Wrong email format": [
+                "Неправильний формат пошти"
+            ],
+            "Not unique email": [
+                "Не унікальна пошта"
+            ],
+            "Not unique access point code": [
+                "Не унікальний ідентифікатор точки доступу"
+            ],
+            "Not unique token reader code": [
+                "Не унікальний id точки"
+            ],
+            "String is too long": [
+                "Занадто довге значення поля"
+            ],
+            "String is too short": [
+                "Занадто коротке значення поля"
+            ],
+            "Value can not be empty": [
+                "Значення поля не може бути порожнім"
+            ],
+            "Wrong end of date range": [
+                "Некоректна кінцева дата діапазону"
+            ],
+            "Wrong date": [
+                "Некоректна дата"
+            ],
+            "AccessSubject does not exist": [
+                "Суб'єкт не існує"
+            ],
+            "Access point does not exist": [
+                "Точка доступу не існує"
+            ],
+            "Not unique schedule name": [
+                "Не унікальна назва графіка"
+            ],
+            "Wrong password format": [
+                "Неправильний формат пароля"
+            ],
+            "Fields not equal": [
+                "Значення полів не збігаються"
+            ],
+            "You've entered the same passwords": [
+                "Новий і старий паролі збігаються"
+            ],
+            "Wrong old password": [
+                "Неправильний старий пароль"
+            ],
+            "Access subject token does not exist": [
+                "Мітка не існує"
+            ],
+            "Not unique items": [
+                "Не унікальний елемент списку"
+            ],
+            "Access subject token is used by other employee": [
+                "Мітка зайнята іншим суб'єктом"
+            ],
+            "Wrong id": [
+                "Неправильний id"
+            ],
+            "Not unique access reader group name": [
+                "Не унікальна назва простору"
+            ],
+            "Wrong url format": [
+                "Неправильний формат url"
+            ],
+            "Access API setting already exists": [
+                "Налаштування API вже існує"
+            ],
+            "Wrong format": [
+                "Неправильний формат"
+            ],
+            "Only a-z, A-Z letters and 0-9 digits": [
+                "Тільки латинські букви: від “Aa” до “Zz” і числа від “0” до “9“"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessReadersGroup": [
+                "Не унікальне ім'я"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessSchedule": [
+                "Не унікальне ім'я"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessSubject": [
+                "Не унікальне ім'я"
+            ],
+            "Unique constraint error. Fields: email. Model: AccessSubject": [
+                "Не унікальна пошта"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessSubjectToken": [
+                "Не унікальне ім'я"
+            ],
+            "Unique constraint error. Fields: code. Model: AccessSubjectToken": [
+                "Не унікальний код"
+            ],
+            "Unique constraint error. Fields: name. Model: AccessTokenReader": [
+                "Не унікальне ім'я"
+            ],
+            "Unique constraint error. Fields: code. Model: AccessTokenReader": [
+                "Не унікальний код"
+            ],
+            "Only a-z, A-Z letters, 0-9 digits and :, -, _": [
+                "Тільки латинські букви: від “Aa” до “Zz”, числа від “0” до “9“ та символи “:“, “-“, “_“"
+            ],
+            "Only A-Z letters and 0-9 digits": [
+                "Тільки латинські букви: від “Aa” до “Zz” і числа від “0” до “9“"
+            ],
+            "Only a-z letters, 0-9 digits and char -": [
+                "Тільки латинськи літери a-z та числа 0-9"
+            ],
+            "Only a-z letters and 0-9 digits": [
+                "Тільки латинськи літери a-z та числа 0-9"
+            ],
+            "The field is required for mobile application": [
+                "Поле є обов'язковим для використання мобільного додатка"
+            ],
+            "Workspace name is used": [
+                "Ім'я робочого простору зайнято"
+            ],
+            "Admin login is used": [
+                "Пошта зайнята"
+            ],
+            "Subject name is used": [
+                "Ім'я суб'єкта зайнято"
+            ],
+            "Subject phone is used": [
+                "Номер телефону суб'єкта зайнятий"
+            ],
+            "Subject email is used": [
+                "Пошта суб'єкта зайнята"
+            ],
+            "Tag name is used": [
+                "Назву мітки зайнято"
+            ],
+            "Tag code is used": [
+                "Код мітки зайнятий"
+            ],
+            "Reader name is used": [
+                "Ім'я точки доступу зайнято"
+            ],
+            "Reader phone is used": [
+                "Номер телефону точки доступу зайнятий"
+            ],
+            "Reader ID is used": [
+                "ID точки доступу зайнято"
+            ],
+            "Schedule name is used": [
+                "Ім'я графіка зайнято"
+            ],
+            "Group name is used": [
+                "Ім'я простору зайнято"
+            ],
+            "Too short password": [
+                "Мінімум 6 символів"
+            ],
+            "Password should contain at least one digit": [
+                "Пароль занадто простий"
+            ],
+            "Password should contain at least one lowercase latin character": [
+                "Пароль занадто простий"
+            ],
+            "Password should contain at least one uppercase latin character": [
+                "Пароль занадто простий"
+            ],
+            "Access forbidden": [
+                "Доступ заборонено"
+            ],
+            "Access is temporarily denied": [
+                "Доступ тимчасово заборонений"
+            ],
+            "Bad request": [
+                "Поганий запит"
+            ],
+            "Forbidden error": [
+                "Заборонено"
+            ],
+            "Format error": [
+                "Помилка формату"
+            ],
+            "Not found": [
+                "Не знайдено"
+            ],
+            "Open door error": [
+                "Помилка відкриття дверей"
+            ],
+            "Email not found in workspace": [
+                "Email не знайдений в робочому просторі"
+            ],
+            "This email is already registered": [
+                "Ця адреса вже зареєстрована"
+            ],
+            "Timed out": [
+                "Час вийшов"
+            ],
+            "Token expired": [
+                "Термін дії токена закінчився"
+            ],
+            "Workspace not found": [
+                "Простір не знайдено"
+            ],
+            "Wrong email or password": [
+                "Неправильна пошта або пароль"
+            ],
+            "Wrong token": [
+                "Неправильний токен"
+            ],
+            "Value should be integer": [
+                "Значення має бути цілим"
+            ],
+            "Value should be positive integer": [
+                "Значення має бути позитивним цілим числом"
+            ],
+            "Value should be boolean": [
+                "Значення має бути логічним"
+            ],
+            "Value is too low": [
+                "Значення занадто маленьке"
+            ],
+            "Value is too high": [
+                "Значення занадто велике"
+            ],
+            "Value is not decimal": [
+                "Значення не десяткове"
+            ],
+            "Too few items": [
+                "Занадто мало предметів"
+            ],
+            "Too many items": [
+                "Занадто багато предметів"
+            ],
+            "Wrong time format": [
+                "Неправильний формат часу"
+            ],
+            "Wrong date format": [
+                "Неправильний формат дати"
+            ],
+            "List has duplicates": [
+                "У списку є дублікати"
+            ],
+            "Bad id": [
+                "Неправильний id"
+            ],
+            "Email already exists": [
+                "Пошта зайнята"
+            ],
+            "Email not found": [
+                "Пошта не знайдена"
+            ],
+            "The email is not registered in the workspace": [
+                "Пошта не зареєстрована"
+            ],
+            "Registration is temporarily unavailable. Ask your administrator": [
+                "Реєстрація тимчасово недоступна. Уточніть у адміністратора"
+            ],
+            "Tag is not found": [
+                "Мітка не знайдена"
+            ],
+            "New password is the same as old": [
+                "Новий пароль такий же, як і старий"
+            ],
+            "Subject not permitted to use app": [
+                "Суб'єкту заборонено використання мобільного додатку"
+            ],
+            "Wrong dates values in period": [
+                "Неправильний порядок дат в проміжку"
+            ],
+            "CameraToReaderMap already exists": [
+                "Зв'язок між камерою і точкою доступу вже існує"
+            ],
+            "CameraToReaderMap with this accessTokenReaderId already exists": [
+                "Зв'язок між точкою доступу з таким ідентифікатором і камерою вже існує"
+            ],
+            "Wrong password reset code": [
+                "Неправильний код відновлення пароля"
+            ],
+            "Requests can be sent no more often than the set interval - 5 minutes": [
+                "Запити можна надсилати не частіше встановленого інтервалу - 5 хвилин"
+            ],
+            "The limit of 4 password reset retries was exceeded": [
+                "Був перевищений ліміт в 4 повторні спроби відновлення пароля"
+            ],
+            "Invalid login or password": [
+                "Неправильний логін або пароль користувача"
+            ],
+            "You have exceeded the authorization attempts limit. Please, repeat after a certain time": [
+                "Ви перевищили ліміт спроб авторизації. Будь ласка, спробуйте через деякий час"
+            ],
+            "Wrong RTSP url": [
+                "Неправильний RTSP url"
+            ],
+            "Email doesn't exist": [
+                "Пошта не існує"
+            ],
+            "Error with sending email": [
+                "Помилка відправлення email"
+            ],
+            "You have exceeded the registration requests limit. Please, repeat after a certain time": [
+                "Ви перевищили ліміт запитів на реєстрацію. Будь ласка, спробуйте через деякий час"
+            ],
+            "Registration request not found": [
+                "Запит на реєстрацію не знайдено"
+            ],
+            "Registration request in processing": [
+                "Запит на реєстрацію в обробці"
+            ],
+            "Email is already registered, try to authorize": [
+                "Email вже зареєстрован, пройдіть авторизацію"
+            ],
+            "You are already added to the workspace. Please, complete the common registration": [
+                "Ви вже додані до робочого простору. Будь ласка, пройдіть звичайно реєстрацію"
+            ]
+        }
+    }
+}

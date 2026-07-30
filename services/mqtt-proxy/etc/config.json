@@ -1,0 +1,30 @@
+{
+    "aedes": {
+        "port"    : "{{AEDES_PORT}}",
+        "wsPort"  : "{{AEDES_WS_PORT}}"
+    },
+    "mqttConnectionOptions": {
+        "uri"     : "{{MQTT_BROKER_URI}}",
+        "username": "{{MQTT_ROOT_USERNAME}}",
+        "password": "{{MQTT_ROOT_PASSWORD}}"
+    },
+    "devices" : {
+        "maxAdditionalRelaysNumber" : "{{MAX_ADDITIONAL_RELAYS_NUMBER}}"
+    },
+    "db": {
+        "username": "{{DB_USERNAME}}",
+        "password": "{{DB_PASSWORD}}",
+        "database": "{{DB_NAME}}",
+        "host": "{{DB_HOST}}",
+        "port": "{{DB_PORT}}",
+        "dialect": "{{DB_DIALECT}}"
+    },
+    "test-db": {
+        "database": "{{TEST_DATABASE_NAME}}",
+        "username": "{{TEST_DB_USERNAME}}",
+        "password": "{{TEST_DB_PASSWORD}}",
+        "host": "{{TEST_DB_HOST}}",
+        "port": "{{TEST_DB_PORT}}",
+        "dialect": "{{TEST_DB_DIALECT}}"
+    }
+}

@@ -1,0 +1,126 @@
+version: '3.7'
+networks:
+  default:
+    name: 2smart-cloud-main
+services:
+  access-backend:
+    image: registry.gitlab.webbylab.com/smarthome/access-control/apps/backend:latest
+    container_name: access-backend
+    restart: always
+    environment:
+      - WAIT_HOSTS=${DB_HOST:-access-percona}:${DB_PORT:-3306}
+      - DNS=${DNS:-localhost}
+      - PORT=${PORT:-8000}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - ADMIN_PASSWORD_RESET_TOKEN_SECRET=${ADMIN_PASSWORD_RESET_TOKEN_SECRET}
+      - MOBILE_PASSWORD_RESET_TOKEN_SECRET=${MOBILE_PASSWORD_RESET_TOKEN_SECRET}
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USERNAME=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_HOST=${DB_HOST:-access-percona}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DIALECT=${DB_DIALECT:-mysql}
+      - TZ=${TIMEZONE}
+      - WAIT_HOSTS_TIMEOUT=${WAIT_HOSTS_TIMEOUT:-300}
+      - TOKEN_READER_ACTIVE_PERIOD_SECONDS=${TOKEN_READER_ACTIVE_PERIOD_SECONDS:-180}
+      - ACCESS_TOKEN_LIFETIME=${ACCESS_TOKEN_LIFETIME:-1200}
+      - ROOT_SSL_CERT_PATH=${ROOT_SSL_CERT_PATH:-/app/etc/ssl/certs/ca.pem}
+      - MQTT_ROOT_PASSWORD=${MQTT_ROOT_PASSWORD}
+      - MQTT_ROOT_USERNAME=${MQTT_ROOT_USERNAME}
+      - MQTT_BROKER_URI=mqtt://access-emqx:1883
+      - EMQX_TCP_PORT=${EMQX_TCP_PORT:-1883}
+      - MAIL_OPTIONS_TRANSPORT_TYPE=${MAIL_OPTIONS_TRANSPORT_TYPE:-SMTP}
+      - MAIL_OPTIONS_TRANSPORT_OPTIONS_PORT=${MAIL_OPTIONS_TRANSPORT_OPTIONS_PORT:-}
+      - MAIL_OPTIONS_TRANSPORT_OPTIONS_HOST=${MAIL_OPTIONS_TRANSPORT_OPTIONS_HOST}
+      - MAIL_OPTIONS_TRANSPORT_OPTIONS_AUTH_USER=${MAIL_OPTIONS_TRANSPORT_OPTIONS_AUTH_USER}
+      - MAIL_OPTIONS_TRANSPORT_OPTIONS_AUTH_PASS=${MAIL_OPTIONS_TRANSPORT_OPTIONS_AUTH_PASS}
+      - MAIL_OPTIONS_FROM=${MAIL_OPTIONS_FROM}
+      - REPORT_RECIEVER_EMAIL=${REPORT_RECIEVER_EMAIL}
+      - REPORT_SEND_INTERVAL=${REPORT_SEND_INTERVAL}
+    volumes:
+      - ${ROOT_DIR:-.}/system/storage:/app/storage
+      - ${ROOT_DIR:-.}/system/ssl/certs:/app/etc/ssl/certs
+
+  access-nginx:
+    image: registry.gitlab.webbylab.com/smarthome/access-control/services/nginx:latest
+    container_name: access-nginx
+    restart: always
+    depends_on:
+      - ssl-certs
+    volumes:
+      - ${ROOT_DIR:-.}/system/ssl:/etc/nginx/ssl
+      - ${ROOT_DIR:-.}/system/releases:/var/tmp/releases
+    environment:
+      - TZ=${TIMEZONE}
+    ports:
+      - ${NGINX_HTTP_PORT:-80}:80
+      - ${NGINX_HTTPS_PORT:-443}:443
+
+  access-percona:
+    image: registry.gitlab.webbylab.com/smarthome/access-control/services/percona:latest
+    container_name: access-percona
+    restart: always
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${ROOT_DIR:-.}/system/mysql:/var/lib/mysql
+
+  ssl-certs:
+    image: registry.gitlab.webbylab.com/smarthome/access-control/services/ssl-certs:latest
+    container_name: ssl-certs
+    environment:
+      - DNS=${DNS:-localhost}
+    volumes:
+      - ${ROOT_DIR:-.}/system/ssl/certs:/app/certs
+      - ${ROOT_DIR:-.}/system/ssl/private:/app/private
+
+  access-updater:
+    image: registry.gitlab.webbylab.com/smarthome/access-control/apps/updater:${TAG:-latest}
+    container_name: access-updater
+    restart: always
+    environment:
+      - PORT=${UPDATER_PORT:-28080}
+      - GITLAB_REGISTRY_HOST=${GITLAB_REGISTRY_HOST}
+      - GITLAB_SERVER_USER=${GITLAB_SERVER_USER}
+      - GITLAB_SERVER_PASS=${GITLAB_SERVER_PASS}
+      - TZ=${TIMEZONE}
+      - STORAGE_URL=${RELEASES_BASE_URL:-http://access-nginx}
+      - CHANGELOG_PATH=${RELEASES_CHANGELOG_PATH:-releases/changelog}
+      - DOCKER_COMPOSES_PATH=${RELEASES_DOCKER_COMPOSES_PATH:-releases/composes}
+      - RELEASES_LIST_PATH=${RELEASES_LIST_PATH:-releases/releases-list.csv}
+      - IGNORE_YML_FILES=${UPDATER_IGNORE_YML_FILES}
+      - SYNC_YML_FILES=${UPDATER_SYNC_YML_FILES:-docker-compose.yml}
+      - PROJECT_NAME=${COMPOSER_PROJECT_NAME:-access-control}
+      - UPDATER_SERVICE_NAME=${UPDATER_SERVICE_NAME:-access-updater}
+      - SERVICE_MANAGER_NAME=${UPDATER_SERVICE_MANAGER_NAME:-access-updater-manager}
+      - MAIN_COMPOSE_FILE=${UPDATER_MAIN_COMPOSE_FILE:-docker-compose.yml}
+    volumes:
+      - ${DOCKER_DIR:-/var/lib/docker}:/var/lib/docker
+      - ${DOCKER_SOCK:-/var/run/docker.sock}:/var/run/docker.sock
+      - ${ROOT_DIR}:/2smart
+      - ${ROOT_DIR}/system/updater:/app/data
+    ports:
+      - 28080:${UPDATER_PORT:-28080}
+
+  access-updater-manager:
+    image: registry.gitlab.webbylab.com/smarthome/access-control/apps/updater-manager:${TAG:-latest}
+    container_name: access-updater-manager
+    environment:
+      - TZ=${TIMEZONE}
+      - UPDATER_SERVICE_NAME=${UPDATER_SERVICE_NAME:-access-updater}
+      - PROJECT_NAME=${COMPOSER_PROJECT_NAME:-cloud}
+    volumes:
+      - ${DOCKER_DIR:-/var/lib/docker}:/var/lib/docker
+      - ${DOCKER_SOCK:-/var/run/docker.sock}:/var/run/docker.sock
+      - ${ROOT_DIR}:/2smart
+
+  access-updater-trigger:
+    image: registry.gitlab.webbylab.com/smarthome/access-control/apps/updater-trigger:${TAG:-latest}
+    container_name: access-updater-trigger
+    environment:
+      - UPDATER_HOST=${UPDATER_HOST:-http://access-updater:28080}
+      - UPDATER_TRIGGER_INTERVAL=${UPDATER_TRIGGER_INTERVAL:-300000}
