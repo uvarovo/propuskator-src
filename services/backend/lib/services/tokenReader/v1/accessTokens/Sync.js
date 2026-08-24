@@ -14,6 +14,12 @@ import { ACTION_TYPES } from '../../../../constants/accessTokenToReaderChangesMa
 import sequelize from '../../../../sequelizeSingleton';
 import { ValidationError } from '../../../utils/SX';
 
+// Placeholder code emitted when the deletion list is empty. Firmware builds before the
+// 2026-07 sync fix mis-parse an empty deletion section ("<time>%%") and drop every rule that
+// follows it, ending up with zero stored keys. Codes are 6 hex chars, so "000000" never
+// matches a real token and the reader treats its deletion as a no-op.
+const EMPTY_DELETION_PLACEHOLDER = '000000';
+
 export default class AccessTokensSync extends Base {
     static validationRules = {
         body : [ 'string' ]
@@ -205,7 +211,7 @@ export default class AccessTokensSync extends Base {
             return `${
                 Math.floor(lastUpdatedAt / 60 / 1000)
             }%${
-                Object.keys(resultDelete).join(',')
+                Object.keys(resultDelete).join(',') || EMPTY_DELETION_PLACEHOLDER
             }%\n${
                 [].concat(...Object.entries(resultUpdate).map(([ k, r ]) => _Uniq(r).map(v => `${k}_/${v}`))).join('\n')
             }`;
@@ -376,7 +382,7 @@ export default class AccessTokensSync extends Base {
     }
 
     _getNoChangesResponse(lastUpdatedAt) {
-        return `${Math.floor(lastUpdatedAt / 60 / 1000)}%%\n`;
+        return `${Math.floor(lastUpdatedAt / 60 / 1000)}%${EMPTY_DELETION_PLACEHOLDER}%\n`;
     }
 }
 
