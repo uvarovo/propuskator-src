@@ -53,7 +53,7 @@ export default class AccessTokensSync extends Base {
             // eslint-disable-next-line prefer-const
             let { time, tokens } = this.parseBody(body);
 
-            const isFullSync = time.getTime() === 0;
+            let isFullSync = time.getTime() === 0;
 
             // clear old rows
             // access reader will save "lastUpdatedAt" (time) only after successfull sync
@@ -71,6 +71,21 @@ export default class AccessTokensSync extends Base {
             const resultUpdate = {};
 
             await sequelize.transaction(async transaction => {
+                const accessTokenReader = await AccessTokenReader.findByPkOrFail(accessTokenReaderId);
+
+                // "reset rules" must win over the changes queue: an empty queue does not mean
+                // the reader holds the full rule set (re-flashed / restored from archive)
+                let resetForced = false;
+
+                if (accessTokenReader.resetRules) {
+                    if (isFullSync) await accessTokenReader.update({ resetRules: false });
+                    else {
+                        // answer with time=0 so the reader comes back with time=0 and the flag is cleared
+                        lastUpdatedAt = time = new Date(0);
+                        isFullSync = resetForced = true;
+                    }
+                }
+
                 // retrieve all changes for the current reader
                 const accessTokenToReaderChangesMaps = await this._getTokenToReaderChanges(accessTokenReaderId, time);
 
@@ -93,10 +108,12 @@ export default class AccessTokensSync extends Base {
                     return accessSubjectTokenCode;
                 }).filter(v => v);
 
-                lastUpdatedAt = _Max([
-                    lastUpdatedAt,
-                    ...accessTokenToReaderChangesMaps.map(({ updatedAt }) => updatedAt)
-                ]);
+                if (!resetForced) {
+                    lastUpdatedAt = _Max([
+                        lastUpdatedAt,
+                        ...accessTokenToReaderChangesMaps.map(({ updatedAt }) => updatedAt)
+                    ]);
+                }
 
                 // set codes from changes that are related to "REMOVE_ACCESS" and "UPDATE_ACCESS" actions
                 // types for deleting
@@ -109,13 +126,6 @@ export default class AccessTokensSync extends Base {
                         actionType === ACTION_TYPES.REMOVE_ACCESS || actionType === ACTION_TYPES.UPDATE_ACCESS
                     )
                     .forEach(({ accessSubjectTokenCode }) => resultDelete[accessSubjectTokenCode] = true);
-
-                const accessTokenReader = await AccessTokenReader.findByPkOrFail(accessTokenReaderId);
-
-                if (accessTokenReader.resetRules) {
-                    if ((+time) === 0) await accessTokenReader.update({ resetRules: false });
-                    else lastUpdatedAt = time = new Date(0);
-                }
 
                 if (this.logger) this.logger.info('start');
 
